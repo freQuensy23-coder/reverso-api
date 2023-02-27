@@ -1,23 +1,23 @@
+import models.response.TranslationResponse
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.MediaType.Companion.toMediaType
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import okhttp3.RequestBody.Companion.toRequestBody
+import models.request.TranslationRequest as JsonRequest
 
 val client = OkHttpClient()
 val JSON = "application/json; charset=utf-8".toMediaType()
-
+val serializeFormat = Json { encodeDefaults = true }
 
 fun translate(fromLang: String, toLang: String, text: String): String {
-    val requestBody = """{
-"source_lang": "$fromLang",
-"target_lang": "$toLang",
-"mode": 0,
-"npage": 1,
-"source_text": "$text",
-"target_text": ""
-}""".trimIndent().toRequestBody(JSON)
+    val requestBodyJson = serializeFormat
+        .encodeToString<JsonRequest>(JsonRequest(fromLang, toLang, sourceText=text))
+    print(requestBodyJson)
+    val requestBody = requestBodyJson.toRequestBody(JSON)
+
     val request = Request.Builder()
         .url("https://context.reverso.net/bst-query-service")
         .addHeader("Origin", "https://context.reverso.net")
@@ -35,5 +35,7 @@ fun main(args: Array<String>) {
 
     // Try adding program arguments via Run/Debug configuration.
     // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}. Trs: ${Json.decodeFromString<TranslationResponse>(translate("en", "ru", "square root"))}")
+    val trsl = translate("en", "ru", "Square root")
+    print(trsl)
+    println("Program arguments: ${args.joinToString()}. Trs: ${Json.decodeFromString<TranslationResponse>(trsl)}")
 }
