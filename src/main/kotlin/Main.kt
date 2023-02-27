@@ -1,23 +1,23 @@
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.MediaType.Companion.toMediaType
-
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
+import okhttp3.RequestBody.Companion.toRequestBody
 
 val client = OkHttpClient()
 val JSON = "application/json; charset=utf-8".toMediaType()
 
 
 fun translate(fromLang: String, toLang: String, text: String): String {
-    val requestBody = RequestBody.create(JSON,
-        """{
+    val requestBody = """{
 "source_lang": "$fromLang",
 "target_lang": "$toLang",
 "mode": 0,
 "npage": 1,
 "source_text": "$text",
 "target_text": ""
-}""".trimIndent())
+}""".trimIndent().toRequestBody(JSON)
     val request = Request.Builder()
         .url("https://context.reverso.net/bst-query-service")
         .addHeader("Origin", "https://context.reverso.net")
@@ -35,5 +35,5 @@ fun main(args: Array<String>) {
 
     // Try adding program arguments via Run/Debug configuration.
     // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}. Trs: ${translate("en", "ru", "square root")}")
+    println("Program arguments: ${args.joinToString()}. Trs: ${Json.decodeFromString<TranslationResponse>(translate("en", "ru", "square root"))}")
 }
