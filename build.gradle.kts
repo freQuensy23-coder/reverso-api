@@ -13,12 +13,13 @@ repositories {
 }
 
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
     implementation("com.squareup.retrofit2:retrofit:latest.release")
     implementation("com.squareup.retrofit2:converter-jackson:latest.release")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
-
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.+")
 }
 
 tasks.test {
