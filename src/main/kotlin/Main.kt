@@ -5,9 +5,8 @@ val client = OkHttpClient()
 
 
 fun main() {
-    println("Hello World!")
     val translator = ReversoTranslatorAPI()
     val text = "Square root"
-    val translation = translator.translate(text, "en", "ru")
-    println("Translation of $text is: $translation")
+    val translationResponse = translator.translate(text, "en", "ru")
+    println("Translation of $text is: ${translationResponse.dictionary_entry_list[0].term}")
 }
