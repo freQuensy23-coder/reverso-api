@@ -1,3 +1,5 @@
+package models.response
+
 import kotlinx.serialization.Serializable
 
 @Serializable

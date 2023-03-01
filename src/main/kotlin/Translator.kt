@@ -2,6 +2,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.request.TranslationRequest
+import models.response.TranslationResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -9,7 +10,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class ReversoTranslatorAPI {
-    fun translate(text: String, fromLang: String, toLang: String):TranslationResponse{
+    fun translate(text: String, fromLang: String, toLang: String): TranslationResponse {
         val request = createRequest(createRequestBody(text, fromLang, toLang))
         val response = client.newCall(request).execute()
         return Json.decodeFromString<TranslationResponse>(response.body!!.string())
