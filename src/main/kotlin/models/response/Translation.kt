@@ -27,6 +27,6 @@ data class Translation (
 	val pos_group : Int,
 	val isTranslation : Boolean,
 	val isFromLOCD : Boolean,
-	val inflectedForms : List<String>,
+//	val inflectedForms : List<String>, TODO fix this thing. It can be List<String> or List<InflectedForms>, (for example look word Hello)
 	val isHiddenInFirstView : Boolean
 )

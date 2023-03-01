@@ -10,10 +10,13 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class ReversoTranslatorAPI {
+    private val jsonUnsafe = Json { ignoreUnknownKeys = true }
+
     fun translate(text: String, fromLang: String, toLang: String): TranslationResponse {
         val request = createRequest(createRequestBody(text, fromLang, toLang))
         val response = client.newCall(request).execute()
-        return Json.decodeFromString<TranslationResponse>(response.body!!.string())
+        // Convert response.body to TranslationResponse using Json and skip any additional fields
+        return jsonUnsafe.decodeFromString(response.body!!.string())
     }
 
     private fun createRequestBody(text: String, fromLang: String, toLang: String): RequestBody{
