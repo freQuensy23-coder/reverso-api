@@ -14,7 +14,7 @@ data class Translation (
 	val stags : List<String>,
 	val article : String,
 	val pos : String?,
-	val sourcepos : List<String>,
+	val sourcepos : List<String>?,
 	val variant : String?,
 	val domain : String?,
 	val definition : String?,
