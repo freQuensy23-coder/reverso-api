@@ -18,7 +18,7 @@ data class TranslationResponse (
 	val dictionary_nrows : Int,
 	val time_ms : Int,
 	val request : Request,
-	val suggestions : List<Suggestions>,
+	val suggestions : List<Suggestions>?,
 	val dym_case : Int,
 	val dym_list : List<String>,
 	val dym_applied : String?,
