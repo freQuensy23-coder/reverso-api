@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.8.0"
     kotlin("plugin.serialization") version "1.8.10"
+    `maven-publish`
     application
 }
 
@@ -32,4 +33,32 @@ kotlin {
 
 application {
     mainClass.set("MainKt")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            pom {
+                name.set("Reverso context API")
+                description.set("Unofficial API wrapper for Reverso context")
+                url.set("https://github.com/freQuensy23-coder/reverso-api/tree/main")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("freQuensy23-coder")
+                        name.set("Alexey Mametev")
+                        email.set("mametevalex@gmail.com")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/freQuensy23-coder/reverso-api/tree/main/")
+                }
+            }
+        }
+    }
 }
