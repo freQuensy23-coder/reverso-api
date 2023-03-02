@@ -83,5 +83,23 @@ internal class ReversoTranslatorAPITest{
         assertEquals(expectedTranslation, translationResponse.dictionary_entry_list[0].term)
     }
 
+    @Test
+    fun testHardTranslation(){
+        println("Start hard translation test")
+        val textsToTranslate = listOf("hello", "be", "government", "goverment", "go")
+        val rightTranslation = listOf("привет", "быть", "правительство", "правительство", "пойти")
+        textsToTranslate.forEachIndexed { index, text ->
+            val translationResponse = reversoTranslatorAPI.translate(text, "en", "ru")
+            assertEquals(rightTranslation[index], translationResponse.dictionary_entry_list[0].term)
+            println("${text} -> ${translationResponse.dictionary_entry_list[0].term} ok")
+        }
+    }
+
+    @Test
+    fun testSentenceTranslation(){
+        val translationResponse = reversoTranslatorAPI.translate("I am a student", "en", "ru")
+        assertEquals("я студент", translationResponse.dictionary_entry_list[0].term)
+    }
+
 }
 
