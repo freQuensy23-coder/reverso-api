@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("list")
 data class Translation (
-
 	val frequency : Int,
 	val term : String,
 	val isFromDict : Boolean,

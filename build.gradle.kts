@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ application {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("reverseo") {
             pom {
                 name.set("Reverso context API")
                 description.set("Unofficial API wrapper for Reverso context")
