@@ -3,6 +3,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.request.TranslationRequest
 import models.response.TranslationResponse
+import models.response.Usage
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -37,4 +38,19 @@ class ReversoTranslatorAPI {
             .post(requestBody)
             .build()
     }
+
+    companion object DataPostProcessor{
+        fun prettifyUsage(usage: Usage, symbol: String="*"): Usage{
+            // Replace <em> tags near source world to symbol. For example:
+            // Take <em>square</em> root -> Take *square* root
+            return Usage(s_text = usage.s_text.replace("<em>", symbol).replace("</em>", symbol),
+                t_text = usage.t_text.replace("<em>", symbol).replace("</em>", symbol),
+                ref = usage.ref,
+                cname = usage.cname,
+                url = usage.url,
+                ctags = usage.ctags,
+                pba = usage.pba)
+        }
+    }
+
 }
