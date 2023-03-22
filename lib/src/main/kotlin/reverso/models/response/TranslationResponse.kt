@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TranslationResponse (
 	@SerialName("list")
-	val usages : List<Usages>,
+	val usages : List<Usage>,
 	val nrows : Int,
 	val nrows_exact : Int,
 	val pagesize : Int,
