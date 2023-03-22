@@ -39,6 +39,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.+")
 
     implementation("com.squareup.okhttp3:okhttp:4.7.2") // send http requests
+
+    implementation("io.github.oshai:kotlin-logging-jvm:4.0.0-beta-22") // logging
 }
 
 tasks.named<Test>("test") {

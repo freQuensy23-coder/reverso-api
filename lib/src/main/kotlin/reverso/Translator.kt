@@ -1,3 +1,4 @@
+import io.github.oshai.KotlinLogging
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -13,12 +14,19 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class ReversoTranslatorAPI {
     private val jsonUnsafe = Json { ignoreUnknownKeys = true }
     private val client = okhttp3.OkHttpClient()
+    private val logger = KotlinLogging.logger {}
 
     fun translate(text: String, fromLang: String, toLang: String): TranslationResponse {
         val request = createRequest(createRequestBody(text, fromLang, toLang))
         val response = client.newCall(request).execute()
+        if (!response.isSuccessful) {
+            logger.error { "Request failed with code ${response.code}" }
+            throw Exception("Request failed with code ${response.code}")
+        }
+        val responseBody = response.body!!.string()
+        logger.info { "Request successful with code ${response.code}.Response body  $responseBody" }
         // Convert response.body to TranslationResponse using Json and skip any additional fields
-        return jsonUnsafe.decodeFromString(response.body!!.string())
+        return jsonUnsafe.decodeFromString(responseBody)
     }
 
     private fun createRequestBody(text: String, fromLang: String, toLang: String): RequestBody{
