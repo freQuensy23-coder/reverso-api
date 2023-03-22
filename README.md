@@ -28,5 +28,3 @@ translationResponse.usages.forEach {
     println("${it.s_text} -> ${it.t_text}")
 }
 ```
-
-

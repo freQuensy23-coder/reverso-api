@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("list")
-data class Usages (
+data class Usage (
 	val s_text : String,
 	val t_text : String,
 	val ref : String,
