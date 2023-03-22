@@ -1,6 +1,8 @@
 ## Reverso context API
 Simple Kotlin API for Reverso Context
 
+![ReversoAPIlogo](https://github.com/s0ftik3/reverso-api/raw/master/assets/reversoapi-logo.png)
+
 ### Installation
 In `build.gradle.kts`:
 * Add jitpack repo
