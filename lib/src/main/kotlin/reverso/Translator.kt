@@ -1,10 +1,10 @@
-import io.github.oshai.KotlinLogging
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.request.TranslationRequest
 import models.response.TranslationResponse
 import models.response.Usage
+import mu.KotlinLogging
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody

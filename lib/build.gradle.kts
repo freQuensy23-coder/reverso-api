@@ -40,7 +40,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.7.2") // send http requests
 
-    implementation("io.github.oshai:kotlin-logging-jvm:4.0.0-beta-22") // logging
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.10") // logging
 }
 
 tasks.named<Test>("test") {
