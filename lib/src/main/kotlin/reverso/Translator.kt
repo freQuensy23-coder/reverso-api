@@ -25,6 +25,7 @@ class ReversoTranslatorAPI {
         }
         val responseBody = response.body!!.string()
         logger.info { "Request successful with code ${response.code}.Response body  $responseBody" }
+        println("Request successful with code ${response.code}.Response body  $responseBody")
         // Convert response.body to TranslationResponse using Json and skip any additional fields
         return jsonUnsafe.decodeFromString(responseBody)
     }
