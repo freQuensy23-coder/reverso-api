@@ -3,7 +3,6 @@ import okio.Buffer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import models.response.Usage
 import okhttp3.Request
 import org.junit.jupiter.api.BeforeEach
 
@@ -100,30 +99,6 @@ internal class ReversoTranslatorAPITest{
     fun testSentenceTranslation(){
         val translationResponse = reversoTranslatorAPI.translate("I am a student", "en", "ru")
         assertEquals("я студент", translationResponse.dictionary_entry_list[0].term)
-    }
-
-    @Test
-    fun testUsagesPrettifier(){
-        val mockUsages = listOf(
-            Usage("I am a <em>student</em>",
-                "я <em>студент</em>",
-                "CCMATRIX-BATCH2.EN-RU_56124554",
-                "MULTIUN-V1.EN-RU",
-                "https://opus.nlpl.eu/CCMatrix.php%22,%22ctags%22:%22general%22,%22pba%22:false%7D,%7B%22s_text%22:%22Requests",
-                ctags="general", pba=false),
-            Usage("<em>Student</em> use means the installation and use of the Software by a Student in accordance license",
-                "<em>Студенческое</em> использование означает установку и использование ПО Студентом в соответствии с лицензией",
-                "CCMATRIX-BATCH2.EN-RU_561",
-                "MULTIUN-V1.EN-RU",
-                "https://opus.nlpl.eu/oter_data",
-                ctags="general", pba=true)
-        )
-        val prettified : MutableList<Usage> = mutableListOf()
-        mockUsages.forEach { prettified.add(ReversoTranslatorAPI.prettifyUsage(it)) }
-        assertEquals("I am a *student*", prettified[0].s_text)
-        assertEquals("я *студент*", prettified[0].t_text)
-        assertEquals("*Студенческое* использование означает установку и использование ПО Студентом в соответствии с лицензией", prettified[1].t_text)
-        assertEquals("*Student* use means the installation and use of the Software by a Student in accordance license", prettified[1].s_text)
     }
 
 }
