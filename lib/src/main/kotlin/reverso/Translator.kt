@@ -8,6 +8,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import reverso.LanguageCode
 
 
 class ReversoTranslatorAPI {
@@ -15,8 +16,8 @@ class ReversoTranslatorAPI {
     private val client = okhttp3.OkHttpClient()
     private val logger = KotlinLogging.logger {}
 
-    fun translate(text: String, fromLang: String, toLang: String): TranslationResponse {
-        val request = createRequest(createRequestBody(text, fromLang, toLang))
+    fun translate(text: String, fromLang: LanguageCode, toLang: LanguageCode): TranslationResponse {
+        val request = createRequest(createRequestBody(text, fromLang.code, toLang.code))
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
             logger.error { "Request failed with code ${response.code}" }
