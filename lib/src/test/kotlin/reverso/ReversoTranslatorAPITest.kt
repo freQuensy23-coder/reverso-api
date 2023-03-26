@@ -1,3 +1,6 @@
+package reverso
+
+import ReversoTranslatorAPI
 import okhttp3.RequestBody
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.*
@@ -79,7 +82,7 @@ internal class ReversoTranslatorAPITest{
 
     @Test
     fun testTranslation(){
-        val translationResponse = reversoTranslatorAPI.translate(translatingText, "en", "ru")
+        val translationResponse = reversoTranslatorAPI.translate(translatingText, LanguageCode("en"), LanguageCode("ru"))
         assertEquals(expectedTranslation, translationResponse.dictionary_entry_list[0].term)
     }
 
@@ -89,7 +92,7 @@ internal class ReversoTranslatorAPITest{
         val textsToTranslate = listOf("hello", "be", "government", "goverment", "go")
         val rightTranslation = listOf("привет", "быть", "правительство", "правительство", "пойти")
         textsToTranslate.forEachIndexed { index, text ->
-            val translationResponse = reversoTranslatorAPI.translate(text, "en", "ru")
+            val translationResponse = reversoTranslatorAPI.translate(text, LanguageCode("en"), LanguageCode("ru"))
             assertEquals(rightTranslation[index], translationResponse.dictionary_entry_list[0].term)
             println("$text -> ${translationResponse.dictionary_entry_list[0].term} ok")
         }
@@ -97,7 +100,7 @@ internal class ReversoTranslatorAPITest{
 
     @Test
     fun testSentenceTranslation(){
-        val translationResponse = reversoTranslatorAPI.translate("I am a student", "en", "ru")
+        val translationResponse = reversoTranslatorAPI.translate("I am a student", LanguageCode("en"), LanguageCode("ru"))
         assertEquals("я студент", translationResponse.dictionary_entry_list[0].term)
     }
 
