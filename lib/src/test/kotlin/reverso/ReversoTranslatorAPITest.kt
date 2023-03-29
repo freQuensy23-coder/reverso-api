@@ -1,6 +1,5 @@
 package reverso
 
-import ReversoTranslatorAPI
 import okhttp3.RequestBody
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.*

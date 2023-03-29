@@ -1,3 +1,5 @@
+package reverso
+
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -8,8 +10,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import reverso.LanguageCode
-
 
 class ReversoTranslatorAPI {
     private val jsonUnsafe = Json { ignoreUnknownKeys = true }
@@ -17,6 +17,7 @@ class ReversoTranslatorAPI {
     private val logger = KotlinLogging.logger {}
 
     fun translate(text: String, fromLang: LanguageCode, toLang: LanguageCode): TranslationResponse {
+        logger.debug { "Translating text $text from $fromLang to $toLang" }
         val request = createRequest(createRequestBody(text, fromLang.code, toLang.code))
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
@@ -24,7 +25,7 @@ class ReversoTranslatorAPI {
             throw Exception("Request failed with code ${response.code}")
         }
         val responseBody = response.body!!.string()
-        logger.info { "Request successful with code ${response.code}.Response body  $responseBody" }
+        logger.debug { "Request successful with code ${response.code}.Response body  $responseBody" }
         println("Request successful with code ${response.code}.Response body  $responseBody")
         // Convert response.body to TranslationResponse using Json and skip any additional fields
         return jsonUnsafe.decodeFromString(responseBody)
@@ -33,18 +34,21 @@ class ReversoTranslatorAPI {
     private fun createRequestBody(text: String, fromLang: String, toLang: String): RequestBody{
         val serializeFormat = Json { encodeDefaults = true }
         val JSON = "application/json; charset=utf-8".toMediaType()
+        val translationRequest = TranslationRequest(fromLang, toLang, sourceText=text)
+        logger.debug { "Translation request: $translationRequest" }
         return serializeFormat
-            .encodeToString<TranslationRequest>(TranslationRequest(fromLang, toLang, sourceText=text)).toRequestBody(JSON)
+            .encodeToString<TranslationRequest>(translationRequest).toRequestBody(JSON)
     }
 
     private fun createRequest(requestBody: RequestBody): Request{
-        return Request.Builder()
+        val request =  Request.Builder()
             .url("https://context.reverso.net/bst-query-service")
             .addHeader("Origin", "https://context.reverso.net")
             .addHeader("Accept-Language", "en-US,en;q=0.5")
             .addHeader("X-Requested-With", "XMLHttpRequest")
             .addHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:77.0) Gecko/20100101 Firefox/77.0")
             .post(requestBody)
-            .build()
+        logger.debug { "Created request: $request" }
+        return request.build()
     }
 }

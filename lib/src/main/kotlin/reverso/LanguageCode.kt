@@ -1,7 +1,6 @@
 package reverso
 
 class LanguageCode(languageCodeString: String) {
-
     companion object {
         val AVAILABLE_CODES: List<String> get() = listOf("ru", "en", "de", "ar", "es", "fr", "he", "it", "ja", "ko", "nl", "pl", "pt", "ro", "sv", "tr", "zh", "uk")
     }
