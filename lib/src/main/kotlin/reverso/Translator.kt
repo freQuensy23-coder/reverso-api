@@ -5,17 +5,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import models.request.TranslationRequest
 import models.response.TranslationResponse
-import mu.KotlinLogging
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class ReversoTranslatorAPI {
-    private val jsonUnsafe = Json { ignoreUnknownKeys = true }
-    private val client = okhttp3.OkHttpClient()
-    private val logger = KotlinLogging.logger {}
-
+class ReversoTranslatorAPI : AbstractTranslator() {
     fun translate(text: String, fromLang: LanguageCode, toLang: LanguageCode): TranslationResponse {
         logger.debug { "Translating text $text from $fromLang to $toLang" }
         val request = createRequest(createRequestBody(text, fromLang.code, toLang.code))
