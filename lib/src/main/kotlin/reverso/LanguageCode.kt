@@ -33,6 +33,7 @@ class LanguageCode(languageCodeString: String) {
             "uk" -> "Ukrainian"
             else -> throw IllegalArgumentException("Invalid language code: $code")
         }
+    override fun toString(): String = "LanguageCode(code='$code', languageName='$languageName')"
 }
 
 val LanguageCode.languageEmoji: String
