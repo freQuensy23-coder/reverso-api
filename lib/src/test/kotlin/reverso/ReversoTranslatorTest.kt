@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.Request
 import org.junit.jupiter.api.BeforeEach
+import reverso.translators.ReversoTranslator
 
 
 fun RequestBody.toMap(): Map<String, String> {
@@ -32,8 +33,9 @@ fun RequestBody.toMap(): Map<String, String> {
 
 
 
-internal class ReversoTranslatorAPITest{
-    private val reversoTranslatorAPI = ReversoTranslatorAPI()
+internal class ReversoTranslatorTest{
+    private val reversoTranslatorAPI = ReversoTranslator()
+    private val requester = Requester()
     private val translatingText = "Square root"
     private val expectedTranslation = "квадратный корень"
     private val expectedRequestBodyMap = mapOf(
@@ -44,8 +46,8 @@ internal class ReversoTranslatorAPITest{
         "mode" to "0",
         "npage" to "1"
     )
-    private val requestBodyCreator = reversoTranslatorAPI.javaClass.getDeclaredMethod("createRequestBody", String::class.java, String::class.java, String::class.java)
-    private val requestCreator = reversoTranslatorAPI.javaClass.getDeclaredMethod("createRequest", RequestBody::class.java)
+    private val requestBodyCreator = requester.javaClass.getDeclaredMethod("createRequestBody", String::class.java, String::class.java, String::class.java)
+    private val requestCreator = requester.javaClass.getDeclaredMethod("buildRequest", RequestBody::class.java)
     @BeforeEach
     fun setup(){
         // TODO make it works with beforeAll prefix
@@ -55,7 +57,7 @@ internal class ReversoTranslatorAPITest{
 
     @Test
     fun testRequestBodyGenerator(){
-        val requestBody = requestBodyCreator.invoke(reversoTranslatorAPI, translatingText, "en", "ru")
+        val requestBody = requestBodyCreator.invoke(requester, translatingText, "en", "ru") // TODO Something wrong with invoke method here
         assert(requestBody is RequestBody)
         if (requestBody !is RequestBody){
             return
@@ -66,7 +68,7 @@ internal class ReversoTranslatorAPITest{
 
     @Test
     fun testRequestCreator(){
-        val requestBody = requestBodyCreator.invoke(reversoTranslatorAPI, translatingText, "en", "ru")
+        val requestBody = requestBodyCreator.invoke(requester, translatingText, "en", "ru")
         val request = requestCreator.invoke(reversoTranslatorAPI, requestBody)
         assert(request is Request)
         if (request !is Request){
