@@ -9,8 +9,10 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class Requester(private val logger: mu.KLogger = KotlinLogging.logger {}) {
-    fun createRequestBody(text: String, fromLang: String, toLang: String): RequestBody {
+
+object Requester {
+    private val logger: mu.KLogger = KotlinLogging.logger {}
+    internal fun createRequestBody(text: String, fromLang: String, toLang: String): RequestBody {
         val serializeFormat = Json { encodeDefaults = true }
         val JSON = "application/json; charset=utf-8".toMediaType()
         val translationRequest = TranslationRequest(fromLang, toLang, sourceText=text)
@@ -19,7 +21,7 @@ class Requester(private val logger: mu.KLogger = KotlinLogging.logger {}) {
             .encodeToString<TranslationRequest>(translationRequest).toRequestBody(JSON)
     }
 
-    fun buildRequest(requestBody: RequestBody): Request {
+    internal fun buildRequest(requestBody: RequestBody): Request {
         val request =  Request.Builder()
             .url("https://context.reverso.net/bst-query-service") // TODO DO not hardcode this values
             .addHeader("Origin", "https://context.reverso.net")
